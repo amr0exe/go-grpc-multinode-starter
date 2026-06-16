@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.12.4
-// source: ping.proto
+// source: pb/ping.proto
 
 package pb
 
@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PingService_SendPing_FullMethodName = "/ping.PingService/SendPing"
+	PingService_ReplicatePut_FullMethodName = "/ping.PingService/ReplicatePut"
 )
 
 // PingServiceClient is the client API for PingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PingServiceClient interface {
-	SendPing(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
+	ReplicatePut(ctx context.Context, in *PutRequest, opts ...grpc.CallOption) (*PutResponse, error)
 }
 
 type pingServiceClient struct {
@@ -37,10 +37,10 @@ func NewPingServiceClient(cc grpc.ClientConnInterface) PingServiceClient {
 	return &pingServiceClient{cc}
 }
 
-func (c *pingServiceClient) SendPing(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
+func (c *pingServiceClient) ReplicatePut(ctx context.Context, in *PutRequest, opts ...grpc.CallOption) (*PutResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PingResponse)
-	err := c.cc.Invoke(ctx, PingService_SendPing_FullMethodName, in, out, cOpts...)
+	out := new(PutResponse)
+	err := c.cc.Invoke(ctx, PingService_ReplicatePut_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *pingServiceClient) SendPing(ctx context.Context, in *PingRequest, opts 
 // All implementations must embed UnimplementedPingServiceServer
 // for forward compatibility.
 type PingServiceServer interface {
-	SendPing(context.Context, *PingRequest) (*PingResponse, error)
+	ReplicatePut(context.Context, *PutRequest) (*PutResponse, error)
 	mustEmbedUnimplementedPingServiceServer()
 }
 
@@ -62,8 +62,8 @@ type PingServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPingServiceServer struct{}
 
-func (UnimplementedPingServiceServer) SendPing(context.Context, *PingRequest) (*PingResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SendPing not implemented")
+func (UnimplementedPingServiceServer) ReplicatePut(context.Context, *PutRequest) (*PutResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReplicatePut not implemented")
 }
 func (UnimplementedPingServiceServer) mustEmbedUnimplementedPingServiceServer() {}
 func (UnimplementedPingServiceServer) testEmbeddedByValue()                     {}
@@ -86,20 +86,20 @@ func RegisterPingServiceServer(s grpc.ServiceRegistrar, srv PingServiceServer) {
 	s.RegisterService(&PingService_ServiceDesc, srv)
 }
 
-func _PingService_SendPing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PingRequest)
+func _PingService_ReplicatePut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PutRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PingServiceServer).SendPing(ctx, in)
+		return srv.(PingServiceServer).ReplicatePut(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PingService_SendPing_FullMethodName,
+		FullMethod: PingService_ReplicatePut_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PingServiceServer).SendPing(ctx, req.(*PingRequest))
+		return srv.(PingServiceServer).ReplicatePut(ctx, req.(*PutRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,10 +112,10 @@ var PingService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SendPing",
-			Handler:    _PingService_SendPing_Handler,
+			MethodName: "ReplicatePut",
+			Handler:    _PingService_ReplicatePut_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "ping.proto",
+	Metadata: "pb/ping.proto",
 }

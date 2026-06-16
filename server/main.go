@@ -7,21 +7,25 @@ import (
 	"grpcdemo/pb"
 	"log"
 	"net"
+	"sync"
 
 	"google.golang.org/grpc"
 )
 
 type server struct {
 	pb.UnimplementedPingServiceServer
-	port string
+	port  string
+	mu    sync.RWMutex
+	store map[string]string
 }
 
-func (s *server) SendPing(ctx context.Context, in *pb.PingRequest) (*pb.PingResponse, error) {
-	log.Printf("[Replica %s] Received ping from client: %s", s.port, in.GetGreetign())
+func (r *server) ReplicatePut(ctx context.Context, in *pb.PutRequest) (*pb.PutResponse, error) {
+	r.mu.Lock()
+	r.store[in.GetKey()] = in.GetValue()
+	r.mu.Unlock()
 
-	return &pb.PingResponse{
-		Reply: "Pong!!!!!!!!!" + in.Greetign,
-	}, nil
+	log.Printf("[Replica %s] State Updated:  %s = %s", r.port, in.GetKey(), in.GetValue())
+	return &pb.PutResponse{Success: true}, nil
 }
 
 func main() {
@@ -33,10 +37,15 @@ func main() {
 		log.Fatal("failed to listen: %v", err)
 	}
 
-	grpcServer := grpc.NewServer()
-	pb.RegisterPingServiceServer(grpcServer, &server{})
+	server := &server{
+		port: *port,
+		store: make(map[string]string),
+	}
 
-	fmt.Printf("gRPC server is running on port %s ...\n", *port)
+	grpcServer := grpc.NewServer()
+	pb.RegisterPingServiceServer(grpcServer, server)
+
+	fmt.Printf("replica server is running on port %s ...\n", *port)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

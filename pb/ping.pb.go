@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.12.4
-// source: ping.proto
+// source: pb/ping.proto
 
 package pb
 
@@ -21,28 +21,29 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type PingRequest struct {
+type PutRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Greetign      string                 `protobuf:"bytes,1,opt,name=greetign,proto3" json:"greetign,omitempty"`
+	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	Value         string                 `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PingRequest) Reset() {
-	*x = PingRequest{}
-	mi := &file_ping_proto_msgTypes[0]
+func (x *PutRequest) Reset() {
+	*x = PutRequest{}
+	mi := &file_pb_ping_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PingRequest) String() string {
+func (x *PutRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PingRequest) ProtoMessage() {}
+func (*PutRequest) ProtoMessage() {}
 
-func (x *PingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_ping_proto_msgTypes[0]
+func (x *PutRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_ping_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -53,40 +54,47 @@ func (x *PingRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PingRequest.ProtoReflect.Descriptor instead.
-func (*PingRequest) Descriptor() ([]byte, []int) {
-	return file_ping_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use PutRequest.ProtoReflect.Descriptor instead.
+func (*PutRequest) Descriptor() ([]byte, []int) {
+	return file_pb_ping_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *PingRequest) GetGreetign() string {
+func (x *PutRequest) GetKey() string {
 	if x != nil {
-		return x.Greetign
+		return x.Key
 	}
 	return ""
 }
 
-type PingResponse struct {
+func (x *PutRequest) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+type PutResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Reply         string                 `protobuf:"bytes,1,opt,name=reply,proto3" json:"reply,omitempty"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PingResponse) Reset() {
-	*x = PingResponse{}
-	mi := &file_ping_proto_msgTypes[1]
+func (x *PutResponse) Reset() {
+	*x = PutResponse{}
+	mi := &file_pb_ping_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PingResponse) String() string {
+func (x *PutResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PingResponse) ProtoMessage() {}
+func (*PutResponse) ProtoMessage() {}
 
-func (x *PingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_ping_proto_msgTypes[1]
+func (x *PutResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_ping_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -97,51 +105,52 @@ func (x *PingResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PingResponse.ProtoReflect.Descriptor instead.
-func (*PingResponse) Descriptor() ([]byte, []int) {
-	return file_ping_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use PutResponse.ProtoReflect.Descriptor instead.
+func (*PutResponse) Descriptor() ([]byte, []int) {
+	return file_pb_ping_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *PingResponse) GetReply() string {
+func (x *PutResponse) GetSuccess() bool {
 	if x != nil {
-		return x.Reply
+		return x.Success
 	}
-	return ""
+	return false
 }
 
-var File_ping_proto protoreflect.FileDescriptor
+var File_pb_ping_proto protoreflect.FileDescriptor
 
-const file_ping_proto_rawDesc = "" +
+const file_pb_ping_proto_rawDesc = "" +
 	"\n" +
+	"\rpb/ping.proto\x12\x04ping\"4\n" +
 	"\n" +
-	"ping.proto\x12\x04ping\")\n" +
-	"\vPingRequest\x12\x1a\n" +
-	"\bgreetign\x18\x01 \x01(\tR\bgreetign\"$\n" +
-	"\fPingResponse\x12\x14\n" +
-	"\x05reply\x18\x01 \x01(\tR\x05reply2@\n" +
-	"\vPingService\x121\n" +
-	"\bSendPing\x12\x11.ping.PingRequest\x1a\x12.ping.PingResponseB\x05Z\x03/pbb\x06proto3"
+	"PutRequest\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value\"'\n" +
+	"\vPutResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2D\n" +
+	"\vPingService\x125\n" +
+	"\fReplicatePut\x12\x10.ping.PutRequest\x1a\x11.ping.PutResponse\"\x00B\x05Z\x03/pbb\x06proto3"
 
 var (
-	file_ping_proto_rawDescOnce sync.Once
-	file_ping_proto_rawDescData []byte
+	file_pb_ping_proto_rawDescOnce sync.Once
+	file_pb_ping_proto_rawDescData []byte
 )
 
-func file_ping_proto_rawDescGZIP() []byte {
-	file_ping_proto_rawDescOnce.Do(func() {
-		file_ping_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_ping_proto_rawDesc), len(file_ping_proto_rawDesc)))
+func file_pb_ping_proto_rawDescGZIP() []byte {
+	file_pb_ping_proto_rawDescOnce.Do(func() {
+		file_pb_ping_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_pb_ping_proto_rawDesc), len(file_pb_ping_proto_rawDesc)))
 	})
-	return file_ping_proto_rawDescData
+	return file_pb_ping_proto_rawDescData
 }
 
-var file_ping_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_ping_proto_goTypes = []any{
-	(*PingRequest)(nil),  // 0: ping.PingRequest
-	(*PingResponse)(nil), // 1: ping.PingResponse
+var file_pb_ping_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_pb_ping_proto_goTypes = []any{
+	(*PutRequest)(nil),  // 0: ping.PutRequest
+	(*PutResponse)(nil), // 1: ping.PutResponse
 }
-var file_ping_proto_depIdxs = []int32{
-	0, // 0: ping.PingService.SendPing:input_type -> ping.PingRequest
-	1, // 1: ping.PingService.SendPing:output_type -> ping.PingResponse
+var file_pb_ping_proto_depIdxs = []int32{
+	0, // 0: ping.PingService.ReplicatePut:input_type -> ping.PutRequest
+	1, // 1: ping.PingService.ReplicatePut:output_type -> ping.PutResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -149,26 +158,26 @@ var file_ping_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_ping_proto_init() }
-func file_ping_proto_init() {
-	if File_ping_proto != nil {
+func init() { file_pb_ping_proto_init() }
+func file_pb_ping_proto_init() {
+	if File_pb_ping_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ping_proto_rawDesc), len(file_ping_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pb_ping_proto_rawDesc), len(file_pb_ping_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_ping_proto_goTypes,
-		DependencyIndexes: file_ping_proto_depIdxs,
-		MessageInfos:      file_ping_proto_msgTypes,
+		GoTypes:           file_pb_ping_proto_goTypes,
+		DependencyIndexes: file_pb_ping_proto_depIdxs,
+		MessageInfos:      file_pb_ping_proto_msgTypes,
 	}.Build()
-	File_ping_proto = out.File
-	file_ping_proto_goTypes = nil
-	file_ping_proto_depIdxs = nil
+	File_pb_ping_proto = out.File
+	file_pb_ping_proto_goTypes = nil
+	file_pb_ping_proto_depIdxs = nil
 }
