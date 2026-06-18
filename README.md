@@ -1,7 +1,10 @@
 # Multi_Node_Comm
 
 ```bash
-# first start by listening from replicas/server
+# Initiate with local_build
+make build
+
+# Then, start by listening from replicas/server
 make r1
 make r2
 make r3
