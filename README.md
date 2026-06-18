@@ -2,16 +2,22 @@
 
 ```bash
 # first start by listening from replicas/server
-go run server/main.go --port=:5001
-go run server/main.go --port=:5002
-go run server/main.go --port=:5003
+make r1
+make r2
+make r3
 
 # start primary_node/client
-go run client/main.go
+make pm
 
 # testing
 sudo apt install httpie # Optional, for curl
 
-http --json PUT :8080/set key=foo value=bar
+# mutation on primary_node
+http PUT :8080/set key=foo value=bar
 http GET :8080/kv/foo
+
+# test for data on replica nodes
+http GET :8081/kv/foo
+http GET :8082/kv/foo
+http GET :8083/kv/foo
 ```
